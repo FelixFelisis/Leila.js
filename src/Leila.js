@@ -1,8 +1,8 @@
 
-window.Leila = {};
+window.Leila = Leila | {};
 
 Leila.Game = function() {
-  this.hello = "hello world"
+  this.hello = "hello world";
 }
 
 Leila.Game.prototype.test = function() {
@@ -16,3 +16,8 @@ function leila() {
 var app = leila();
 
 app.test();
+
+
+
+
+

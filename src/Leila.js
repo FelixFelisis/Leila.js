@@ -19,8 +19,3 @@ app.test();
 // test wh2
 
 // MA MODIF
-
-
-
-
-

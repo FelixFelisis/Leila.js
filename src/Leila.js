@@ -1,6 +1,6 @@
 
 // define a new "namespace"
-window.Leila = Leila | {};
+window.Leila = {};
 
 // base class -> Game
 Leila.Game = function() {
@@ -13,5 +13,5 @@ Leila.Game.prototype.test = function() {
 
 // setup a new game
 function leila() {
-  return new Game();
+  return new Leila.Game();
 }

@@ -1,3 +1,35 @@
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+
+/**
+ * file : Leila.js 
+ *
+ * authors : Arthur Correnson / Benjamin Mandervelde
+ * 
+ * this code is distributed under the MIT
+ *
+ */
+
+const cm = require('./canvas');
+
+// define a new "namespace"
+window.Leila = {};
+
+Leila.CanvasManager = cm;
+
+// base class -> Game
+Leila.Game = function() {
+  this.hello = "hello world";
+}
+
+Leila.Game.prototype.test = function() {
+  console.log(this.hello);
+}
+
+// setup a new game
+function leila() {
+  return new Leila.Game();
+}
+},{"./canvas":2}],2:[function(require,module,exports){
 
 /**
  * file : canvas.js 
@@ -50,3 +82,4 @@ let cm = (function() {
 })();
 
 module.exports = cm;
+},{}]},{},[1]);

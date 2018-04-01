@@ -11,6 +11,13 @@ Une petite bibliothèque javascript pour créer des jeux navigateurs.
 
 # Stade du développement
 
+Leila.js est actuellement EN CONSTRUCTION. N'hésitez pas à lire le fichier CahierDesCharges.md
+pour plus de détails sur les objectifs finaux.
+
+A faire (urgent) :
+  + penser la prise en main en détail
+  + organiser le lien Core / Renderer
+
 En cours : 
   + CanvasManager
   + Core

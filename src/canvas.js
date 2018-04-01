@@ -1,27 +1,21 @@
 
 /**
- * file : canvas.js 
- *
- * authors : Arthur Correnson / Benjamin Mandervelde
- * 
- * this code is distributed under the MIT licence
- *
- */
+* file : canvas.js 
+*
+* authors : Arthur Correnson / Benjamin Mandervelde
+* 
+* this code is distributed under the MIT licence
+*
+*/
 
 
- CanvasManager = {};
+const CanvasManager = {};
 
- CanvasManager.plugin = true;
-
- CanvasManager.create = function (width, height, parent) {
+CanvasManager.createCanvas = function (width, height, parent) {
   this._canvas = document.createElement('canvas');
   this._canvas.width = width || 400;
   this._canvas.height = height || 400;
   this.bindTo(parent || 'body');
-};
-
-CanvasManager.remove = function () {
-  delete this._canvas;
 };
 
 CanvasManager.bindParams = function (params) {

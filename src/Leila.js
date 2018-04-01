@@ -1,12 +1,19 @@
+
 /**
+ * file : Leila.js 
+ *
  * authors : Arthur Correnson / Benjamin Mandervelde
  * 
  * this code is distributed under the MIT
  *
  */
 
+const cm = require('./canvas');
+
 // define a new "namespace"
 window.Leila = {};
+
+Leila.CanvasManager = cm;
 
 // base class -> Game
 Leila.Game = function() {

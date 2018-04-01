@@ -1,3 +1,9 @@
+/**
+ * authors : Arthur Correnson / Benjamin Mandervelde
+ * 
+ * this code is distributed under the MIT licence
+ *
+ */
 
 // define a new "namespace"
 window.Leila = {};

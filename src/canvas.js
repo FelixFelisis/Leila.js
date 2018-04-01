@@ -1,3 +1,10 @@
+/**
+ * authors : Arthur Correnson / Benjamin Mandervelde
+ * 
+ * this code is distributed under the MIT licence
+ *
+ */
+
 Leila.CanvasManager = {};
 
 Leila.CanvasManager.create = function (width, height, parent) {

@@ -1,7 +1,7 @@
 /**
  * authors : Arthur Correnson / Benjamin Mandervelde
  * 
- * this code is distributed under the MIT licence
+ * this code is distributed under the MIT
  *
  */
 

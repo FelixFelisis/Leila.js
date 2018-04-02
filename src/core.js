@@ -56,6 +56,7 @@ Core.init = function(args) {
   if(!args) args = {};
   if(this.createCanvas) {
     this.createCanvas(args.width, args.height);
+    this.get2dContext();
   } else {
     console.error("[LeilaJs] Core.init -> no CanvasManager set");
   }
@@ -82,5 +83,7 @@ Core.GameObject.prototype.setState = function(args) {
 }
 
 Core.GameObject.prototype.update = function(dt) {};
+
+Core.GameObject.prototype.render = function(dt) {};
 
 module.exports = Core;

@@ -7,11 +7,13 @@
   <script src="../build/bundle.js"></script>
   
   <script>
-    Leila.createCanvas();
-    var c = Leila.get2dContext();
-    Leila.clearCanvas("red");
 
-    Leila.init();
+    Leila.init({
+      width: 800,
+      height: 800
+    });
+
+    Leila.clearCanvas("black");
 
     class MyObject extends Leila.GameObject {
       update(dt) {

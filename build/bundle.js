@@ -102,10 +102,7 @@ Core.register = function(component) {
 Core.render = function(dt) {
   // loop over components and components.render();
   for(var component of this.components) {
-    if(component.toRender) {
-      component.render(dt);
-      component.toRender = false;
-    }
+    component.render(dt);
   }
 }
 
@@ -133,6 +130,7 @@ Core.init = function(args) {
   if(!args) args = {};
   if(this.createCanvas) {
     this.createCanvas(args.width, args.height);
+    this.get2dContext();
   } else {
     console.error("[LeilaJs] Core.init -> no CanvasManager set");
   }
@@ -156,10 +154,11 @@ Core.GameObject.prototype.setState = function(args) {
   for(var fields in args) {
     this[fields] = args[fields];
   }
-  this.toRender = true;
 }
 
 Core.GameObject.prototype.update = function(dt) {};
+
+Core.GameObject.prototype.render = function(dt) {};
 
 module.exports = Core;
 },{}]},{},[1]);

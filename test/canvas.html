@@ -10,6 +10,19 @@
     Leila.createCanvas();
     var c = Leila.get2dContext();
     Leila.clearCanvas("red");
+
+    Leila.init();
+
+    class MyObject extends Leila.GameObject {
+      render(dt) {
+        console.log("test", dt);
+      }
+    }
+
+    Leila.register(new MyObject('test'));
+
+    Leila.start();
+    
   </script>
 </body>
 </html>

@@ -33,10 +33,17 @@ CanvasManager.canvasParent = function (parent) {
 
 CanvasManager.get2dContext = function () {
   if(this._canvas) {
-    return this._canvas.getContext('2d');
+    this._context = this._canvas.getContext('2d');
   } else {
     console.error('[LeilaJs] Canvas.get2dContext: no canvas created');
   }
-};  
+};
+
+CanvasManager.clearCanvas = function(color) {
+  let w = this._context.canvas.width;
+  let h = this._context.canvas.height;
+  this._context.fillStyle = color;
+  this._context.fillRect(0, 0, w, h);
+}
 
 module.exports = CanvasManager;

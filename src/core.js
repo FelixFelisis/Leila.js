@@ -21,13 +21,17 @@ Core.loadImages = function() {
 
 Core.register = function(component) {
   // register a new component
-  this.components.push(component);
+  if (component instanceof this.GameObject)
+    this.components.push(component);
 }
 
 Core.render = function(dt) {
   // loop over components and components.render();
   for(var component of this.components) {
-    component.render(dt);
+    if(component.toRender) {
+      component.render(dt);
+      component.toRender = false;
+    }
   }
 }
 
@@ -78,7 +82,7 @@ Core.GameObject.prototype.setState = function(args) {
   for(var fields in args) {
     this[fields] = args[fields];
   }
-  this.updated = true;
+  this.toRender = true;
 }
 
 Core.GameObject.prototype.update = function(dt) {};

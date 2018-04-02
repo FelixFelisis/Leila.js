@@ -8,53 +8,49 @@
 
 Une petite bibliothèque javascript pour créer des jeux navigateurs.
 
+# Note
+
+Il semble important de rappeler que Leila.js est un projet à but éducatif.
+C'est une bibliothèque réalisée avant tout par des débutants et des passionnés 
+de programmation. Elle n'est donc pas déstinée à un usage "professionnel".
+
+Bien que réalisée avec le soucis d'être fonctionnelle, légère et propre, cette bibliothèque
+n'a aucunement la prétention d'être parfaite. Si vous repérez d'éventuelles optimisations
+possibles, n'hésitez pas à le faire savoir et à contribuer au projet !
+
+L'objectif de leila.js reste avant tout de rassembler une communauté de développeurs de
+tout âge et de tout niveau autour d'un même projet collaboratif. 
+Donc quelque soit votre niveau en programmation, n'hésitez pas à rejoindre et à soutenir le projet.
 
 # Stade du développement
 
-Leila.js est actuellement EN CONSTRUCTION. N'hésitez pas à lire le fichier CahierDesCharges.md
-pour plus de détails sur les objectifs finaux.
+Leila.js est actuellement EN CONSTRUCTION.
 
-A faire (urgent) :
-  + penser la prise en main en détail
-  + organiser le lien Core / Renderer
+Pour prendre part aux décisions, vous pouvez rejoindre le server discord suivant :
 
-En cours : 
-  + CanvasManager
-  + Core
+[discord](https://discord.gg/kv9zA3Z)
 
-Finis : 
-  + réglages npm
-  + réglages browserify
-
-# Pourquoi ?
-
-L'objectif de leila.js est de rassembler une communauté de développeurs de
-tout âge et de tout niveau autour d'un même projet collaboratif. 
-
-Quelque soit votre niveau en programmation, n'hésitez pas à rejoindre et à soutenir le projet.
+Vous pouvez également lire le Wiki qui propose une journal de bord du développement
+et qui contiendra prochainement la documentation.
 
 # L'idée
 
 Leila.js se veut être une librairie légère est très simple d'utilisation.
 
 Au terme de son développement elle devra fournir les fonctionnalités suivantes : 
-+ Un moteur de rendu 2D
-+ Un moteur de rendu 3D
-+ Un moteur physique (2D)
-+ La gestion de scènes
++ rendu 2D
++ rendu 3D
++ physique (2D)
++ gestion de scènes
 
-# Adresse aux nouveaux venus
-
-Vous voulez participer ? Vous êtes un peu perdu ? Pas de soucis, ce paragraphe est fait pour vous ^^.
-
-## Le langage et les outils
+# Le langage et les outils
 
 Leila.js est, comme indiqué par son nom, développée en javascript. 
 Pour accelérer le développement et permettre une orgnaisation en modules, Leila.js est conçu sous Node.js.
 On utilise également browserify pour packager la librairie en un seul fichier utilisable dans n'importe
-qu'elle page web.
+quelle page web.
 
-## Build la bibliothèque
+# Build la bibliothèque
 
 Pour packager la bibliothèque après lui avoir apporté d'éventuelles modifications, simplement utiliser
 la commande : `$ npm run build`. 

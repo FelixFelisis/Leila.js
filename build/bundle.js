@@ -5,7 +5,7 @@
 *
 * authors : Arthur Correnson / Benjamin Mandervelde
 * 
-* this code is distributed under the MIT
+* this code is distributed under the MIT licence
 *
 */
 
@@ -13,21 +13,14 @@ const CanvasManager = require('./canvas');
 
 const Core = require('./core');
 
-// define a new "namespace"
 window.Leila = {};
 
-Object.assign(Leila, Core, CanvasManager);
+// Core module
+Object.assign(Leila, Core);
 
-Leila.init = function(args) {
-  this.create(args.width, args.height);
-}
+// CanvasManager module
+Object.assign(Leila, CanvasManager);
 
-Leila.start = function() {
-  this.loadImages();
-  window.requestAnimationFrame(() => {
-    this.gameLoop();
-  });
-}
 },{"./canvas":2,"./core":3}],2:[function(require,module,exports){
 
 /**
@@ -39,17 +32,16 @@ Leila.start = function() {
 *
 */
 
-
 const CanvasManager = {};
 
 CanvasManager.createCanvas = function (width, height, parent) {
   this._canvas = document.createElement('canvas');
   this._canvas.width = width || 400;
   this._canvas.height = height || 400;
-  this.bindTo(parent || 'body');
+  this.canvasParent(parent || 'body');
 };
 
-CanvasManager.bindParams = function (params) {
+CanvasManager.canvasParams = function (params) {
   if(typeof params === 'object') {
     for(let index in params) {
       this._canvas.setAttribute(index, params[index]);
@@ -59,7 +51,7 @@ CanvasManager.bindParams = function (params) {
   }
 };
 
-CanvasManager.bindTo = function (parent) {
+CanvasManager.canvasParent = function (parent) {
   document.querySelector(parent).appendChild(this._canvas);
 };
 
@@ -70,7 +62,6 @@ CanvasManager.get2dContext = function () {
     console.error('[LeilaJs] Canvas.get2dContext: no canvas created');
   }
 };
-
 
 module.exports = CanvasManager;
 },{}],3:[function(require,module,exports){
@@ -114,8 +105,23 @@ Core.gameLoop = function() {
   this.update();
   this.render();
   window.requestAnimationFrame(() => {
-    this.gameLoop();  
-  })
+    this.gameLoop();
+  });
+}
+
+Core.init = function(args) {
+  if(this.createCanvas) {
+    this.createCanvas(args.width, args.height);
+  } else {
+    console.error("[LeilaJs] Core.init -> no CanvasManager set");
+  }
+}
+
+Core.start = function() {
+  this.loadImages();
+    window.requestAnimationFrame(() => {
+    this.gameLoop();
+  });
 }
 
 module.exports = Core;

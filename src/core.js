@@ -38,8 +38,23 @@ Core.gameLoop = function() {
   this.update();
   this.render();
   window.requestAnimationFrame(() => {
-    this.gameLoop();  
-  })
+    this.gameLoop();
+  });
+}
+
+Core.init = function(args) {
+  if(this.createCanvas) {
+    this.createCanvas(args.width, args.height);
+  } else {
+    console.error("[LeilaJs] Core.init -> no CanvasManager set");
+  }
+}
+
+Core.start = function() {
+  this.loadImages();
+    window.requestAnimationFrame(() => {
+    this.gameLoop();
+  });
 }
 
 module.exports = Core;

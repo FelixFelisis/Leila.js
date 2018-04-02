@@ -1,6 +1,6 @@
 
 /**
-* file : canvas.js 
+* file : canvas.js
 *
 * authors : Arthur Correnson / Benjamin Mandervelde
 * 
@@ -8,17 +8,16 @@
 *
 */
 
-
 const CanvasManager = {};
 
 CanvasManager.createCanvas = function (width, height, parent) {
   this._canvas = document.createElement('canvas');
   this._canvas.width = width || 400;
   this._canvas.height = height || 400;
-  this.bindTo(parent || 'body');
+  this.canvasParent(parent || 'body');
 };
 
-CanvasManager.bindParams = function (params) {
+CanvasManager.canvasParams = function (params) {
   if(typeof params === 'object') {
     for(let index in params) {
       this._canvas.setAttribute(index, params[index]);
@@ -28,7 +27,7 @@ CanvasManager.bindParams = function (params) {
   }
 };
 
-CanvasManager.bindTo = function (parent) {
+CanvasManager.canvasParent = function (parent) {
   document.querySelector(parent).appendChild(this._canvas);
 };
 
@@ -38,7 +37,6 @@ CanvasManager.get2dContext = function () {
   } else {
     console.error('[LeilaJs] Canvas.get2dContext: no canvas created');
   }
-};
-
+};  
 
 module.exports = CanvasManager;

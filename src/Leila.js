@@ -4,7 +4,7 @@
 *
 * authors : Arthur Correnson / Benjamin Mandervelde
 * 
-* this code is distributed under the MIT
+* this code is distributed under the MIT licence
 *
 */
 
@@ -12,18 +12,10 @@ const CanvasManager = require('./canvas');
 
 const Core = require('./core');
 
-// define a new "namespace"
 window.Leila = {};
 
-Object.assign(Leila, Core, CanvasManager);
+// Core module
+Object.assign(Leila, Core);
 
-Leila.init = function(args) {
-  this.create(args.width, args.height);
-}
-
-Leila.start = function() {
-  this.loadImages();
-  window.requestAnimationFrame(() => {
-    this.gameLoop();
-  });
-}
+// CanvasManager module
+Object.assign(Leila, CanvasManager);

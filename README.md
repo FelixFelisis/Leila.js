@@ -35,7 +35,7 @@ et qui contiendra prochainement la documentation.
 
 # L'idée
 
-Leila.js se veut être une librairie légère est très simple d'utilisation.
+Leila.js se veut être une librairie légère et très simple d'utilisation.
 
 Au terme de son développement elle devra fournir les fonctionnalités suivantes : 
 + rendu 2D

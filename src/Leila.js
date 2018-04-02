@@ -1,30 +1,21 @@
 
 /**
- * file : Leila.js 
- *
- * authors : Arthur Correnson / Benjamin Mandervelde
- * 
- * this code is distributed under the MIT
- *
- */
+* file : Leila.js 
+*
+* authors : Arthur Correnson / Benjamin Mandervelde
+* 
+* this code is distributed under the MIT licence
+*
+*/
 
-const cm = require('./canvas');
+const CanvasManager = require('./canvas');
 
-// define a new "namespace"
+const Core = require('./core');
+
 window.Leila = {};
 
-Leila.CanvasManager = cm;
+// Core module
+Object.assign(Leila, Core);
 
-// base class -> Game
-Leila.Game = function() {
-  this.hello = "hello world";
-}
-
-Leila.Game.prototype.test = function() {
-  console.log(this.hello);
-}
-
-// setup a new game
-function leila() {
-  return new Leila.Game();
-}
+// CanvasManager module
+Object.assign(Leila, CanvasManager);

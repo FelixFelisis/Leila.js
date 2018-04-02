@@ -28,10 +28,7 @@ Core.register = function(component) {
 Core.render = function(dt) {
   // loop over components and components.render();
   for(var component of this.components) {
-    if(component.toRender) {
-      component.render(dt);
-      component.toRender = false;
-    }
+    component.render(dt);
   }
 }
 
@@ -82,7 +79,6 @@ Core.GameObject.prototype.setState = function(args) {
   for(var fields in args) {
     this[fields] = args[fields];
   }
-  this.toRender = true;
 }
 
 Core.GameObject.prototype.update = function(dt) {};

@@ -8,14 +8,50 @@
 *
 */
 
-const CanvasManager = require('./canvas');
+(function() {
+  'use strict';
 
-const Core = require('./core');
+  var lib = {};
 
-window.Leila = {};
+  // utils functions
+  var Utils = {
 
-// Core module
-Object.assign(Leila, Core);
+  }
 
-// CanvasManager module
-Object.assign(Leila, CanvasManager);
+  // canvas functions
+  var Canvas = require('./canvas');
+
+  // drawing functions
+  var Draw = require('./Draw');
+
+  // math functions
+  var math = require('./math');
+
+  // main loop manager
+  var mainLoop = require('./mainLoop');
+
+  // set all properties
+  Object.assign(
+    lib,
+    Utils,
+    Canvas,
+    Draw,
+    math,
+    mainLoop
+    );
+
+  // make Leila global
+  window.Leila = lib;
+
+  // onload try to start the main loop
+  window.onload = function() {
+    Leila._innit();
+  }
+
+})();
+
+
+
+
+
+

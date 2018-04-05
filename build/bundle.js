@@ -1,6 +1,42 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 
 /**
+* file : draw.js 
+*
+* 2D rendering module
+* 
+* authors : Arthur Correnson / Benjamin Mandervelde
+* 
+* this code is distributed under the MIT licence
+*
+*/
+
+module.exports = {
+
+  fillStyle : function(color) {
+    this._context.fillStyle = color;
+  },
+
+  clear : function(color) {
+    this.fillStyle(color);
+    this._context.fillRect(0, 0, this._canvas.width, this._canvas.height);
+  },
+
+  fillRect : function(x, y, w, h) {
+    this._context.fillRect(x, y, w, h);
+  },
+
+  strokeStyle : function(color) {
+    this._context.strokeStyle = color;
+  },
+
+  strokeRect : function(x, y, w, h) {
+    this._context.strokeRect(x, y, w, h);
+  }
+}
+},{}],2:[function(require,module,exports){
+
+/**
 * file : Leila.js 
 *
 * authors : Arthur Correnson / Benjamin Mandervelde
@@ -9,156 +45,120 @@
 *
 */
 
-const CanvasManager = require('./canvas');
+(function() {
+  'use strict';
 
-const Core = require('./core');
+  var lib = {};
 
-window.Leila = {};
+  // utils functions
+  var Utils = {
 
-// Core module
-Object.assign(Leila, Core);
+  }
 
-// CanvasManager module
-Object.assign(Leila, CanvasManager);
+  // canvas functions
+  var Canvas = require('./canvas');
 
-},{"./canvas":2,"./core":3}],2:[function(require,module,exports){
+  var Draw = require('./Draw');
+
+  var math = require('./math');
+
+  var mainLoop = require('./mainLoop');
+
+  Object.assign(
+    lib,
+    Utils,
+    Canvas,
+    Draw,
+    math,
+    mainLoop
+    );
+
+  window.Leila = lib;
+
+  window.onload = function() {
+    Leila._innit();
+  }
+
+})();
+
+
+
+
+
+
+
+},{"./Draw":1,"./canvas":3,"./mainLoop":4,"./math":5}],3:[function(require,module,exports){
 
 /**
 * file : canvas.js
 *
+* Canvas manager module
+* 
 * authors : Arthur Correnson / Benjamin Mandervelde
 * 
 * this code is distributed under the MIT licence
 *
 */
 
-const CanvasManager = {};
+module.exports = {
 
-CanvasManager.createCanvas = function (width, height, parent) {
-  this._canvas = document.createElement('canvas');
-  this._canvas.width = width || 400;
-  this._canvas.height = height || 400;
-  this.canvasParent(parent || 'body');
-};
+  createCanvas : function(width, height, option) {
+    var canvas = document.createElement("canvas");
+    document.querySelector("body").appendChild(canvas);
 
-CanvasManager.canvasParams = function (params) {
-  if(typeof params === 'object') {
-    for(let index in params) {
-      this._canvas.setAttribute(index, params[index]);
+    canvas.width = width || 400;
+    canvas.height = height || 400;
+
+    if(option && (option === 'webgl' || option === '2d')) {
+      this._context = canvas.getContext(option);
+    } else {
+      this._context = canvas.getContext('2d');
     }
-  } else {
-    console.error('[LeilaJs] Canvas.bindParam: params is not an object');
+
+    this._canvas = canvas;
+
   }
-};
-
-CanvasManager.canvasParent = function (parent) {
-  document.querySelector(parent).appendChild(this._canvas);
-};
-
-CanvasManager.get2dContext = function () {
-  if(this._canvas) {
-    this._context = this._canvas.getContext('2d');
-  } else {
-    console.error('[LeilaJs] Canvas.get2dContext: no canvas created');
-  }
-};
-
-CanvasManager.clearCanvas = function(color) {
-  let w = this._context.canvas.width;
-  let h = this._context.canvas.height;
-  this._context.fillStyle = color;
-  this._context.fillRect(0, 0, w, h);
 }
-
-module.exports = CanvasManager;
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 
 /**
-* file : core.js 
+* file : canvas.js
 *
+* Main loop module
+* 
 * authors : Arthur Correnson / Benjamin Mandervelde
 * 
-* this code is distributed under the MIT
+* this code is distributed under the MIT licence
 *
 */
 
-const Core = {};
+module.exports = {
 
-Core.components = [];
+  _innit : function () {
+    if(window.main && typeof window.main === 'function') {
+      window.requestAnimationFrame(Leila._step);
+    } else {
+      console.log("nop");
+    }
+  },
 
-Core.componentsToRender = [];
-
-Core.loadImages = function() {
-  if (!this.images) this.images = {};
-  // loop over components
-}
-
-Core.register = function(component) {
-  // register a new component
-  if (component instanceof this.GameObject)
-    this.components.push(component);
-}
-
-Core.render = function(dt) {
-  // loop over components and components.render();
-  for(var component of this.components) {
-    component.render(dt);
+  _step : function() {
+    window.main();
+    window.requestAnimationFrame(Leila._step);
   }
 }
+},{}],5:[function(require,module,exports){
+module.exports = {
+  sin : Math.sin,
 
-Core.update = function(dt) {
-  // loop over components and components.update();
-  for(var component of this.components) {
-    component.update(dt);
-  }
+  cos : Math.cos,
+
+  tan : Math.tan,
+
+  acos : Math.acos,
+
+  asin : Math.asin,
+
+  atan : Math.atan
 }
-
-Core.gameLoop = function() {
-  // delta time
-  let date = Date.now();
-  let dt = date - this._lastUpdate;
-  this._lastUpdate = date;
-  // update
-  this.update(dt / 1000);
-  this.render(dt / 1000);
-  window.requestAnimationFrame(() => {
-    this.gameLoop();
-  });
-}
-
-Core.init = function(args) {
-  if(!args) args = {};
-  if(this.createCanvas) {
-    this.createCanvas(args.width, args.height);
-    this.get2dContext();
-  } else {
-    console.error("[LeilaJs] Core.init -> no CanvasManager set");
-  }
-}
-
-Core.start = function() {
-  this.loadImages();
-  this._lastUpdate = Date.now();
-  window.requestAnimationFrame(() => {
-    this.gameLoop();
-  });
-}
-
-// class gameObject
-Core.GameObject = function(name) {
-  this.name = name;
-  this.state = {};
-}
-
-Core.GameObject.prototype.setState = function(args) {
-  for(var fields in args) {
-    this[fields] = args[fields];
-  }
-}
-
-Core.GameObject.prototype.update = function(dt) {};
-
-Core.GameObject.prototype.render = function(dt) {};
-
-module.exports = Core;
-},{}]},{},[1]);
+},{}]},{},[2]);

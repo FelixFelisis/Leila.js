@@ -2,48 +2,30 @@
 /**
 * file : canvas.js
 *
+* Canvas manager module
+* 
 * authors : Arthur Correnson / Benjamin Mandervelde
 * 
 * this code is distributed under the MIT licence
 *
 */
 
-const CanvasManager = {};
+module.exports = {
 
-CanvasManager.createCanvas = function (width, height, parent) {
-  this._canvas = document.createElement('canvas');
-  this._canvas.width = width || 400;
-  this._canvas.height = height || 400;
-  this.canvasParent(parent || 'body');
-};
+  createCanvas : function(width, height, option) {
+    var canvas = document.createElement("canvas");
+    document.querySelector("body").appendChild(canvas);
 
-CanvasManager.canvasParams = function (params) {
-  if(typeof params === 'object') {
-    for(let index in params) {
-      this._canvas.setAttribute(index, params[index]);
+    canvas.width = width || 400;
+    canvas.height = height || 400;
+
+    if(option && (option === 'webgl' || option === '2d')) {
+      this._context = canvas.getContext(option);
+    } else {
+      this._context = canvas.getContext('2d');
     }
-  } else {
-    console.error('[LeilaJs] Canvas.bindParam: params is not an object');
+
+    this._canvas = canvas;
+
   }
-};
-
-CanvasManager.canvasParent = function (parent) {
-  document.querySelector(parent).appendChild(this._canvas);
-};
-
-CanvasManager.get2dContext = function () {
-  if(this._canvas) {
-    this._context = this._canvas.getContext('2d');
-  } else {
-    console.error('[LeilaJs] Canvas.get2dContext: no canvas created');
-  }
-};
-
-CanvasManager.clearCanvas = function(color) {
-  let w = this._context.canvas.width;
-  let h = this._context.canvas.height;
-  this._context.fillStyle = color;
-  this._context.fillRect(0, 0, w, h);
 }
-
-module.exports = CanvasManager;

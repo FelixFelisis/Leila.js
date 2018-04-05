@@ -58,12 +58,16 @@ module.exports = {
   // canvas functions
   var Canvas = require('./canvas');
 
+  // drawing functions
   var Draw = require('./Draw');
 
+  // math functions
   var math = require('./math');
 
+  // main loop manager
   var mainLoop = require('./mainLoop');
 
+  // set all properties
   Object.assign(
     lib,
     Utils,
@@ -73,8 +77,10 @@ module.exports = {
     mainLoop
     );
 
+  // make Leila global
   window.Leila = lib;
 
+  // onload try to start the main loop
   window.onload = function() {
     Leila._innit();
   }
@@ -136,7 +142,9 @@ module.exports = {
 
   _innit : function () {
     if(window.main && typeof window.main === 'function') {
-      window.requestAnimationFrame(Leila._step);
+      window.requestAnimationFrame(() => {
+        this._step();
+      });
     } else {
       console.log("nop");
     }
@@ -144,7 +152,9 @@ module.exports = {
 
   _step : function() {
     window.main();
-    window.requestAnimationFrame(Leila._step);
+    window.requestAnimationFrame(() => {
+      this._step();
+    });
   }
 }
 },{}],5:[function(require,module,exports){

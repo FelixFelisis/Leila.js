@@ -14,7 +14,9 @@ module.exports = {
 
   _innit : function () {
     if(window.main && typeof window.main === 'function') {
-      window.requestAnimationFrame(Leila._step);
+      window.requestAnimationFrame(() => {
+        this._step();
+      });
     } else {
       console.log("nop");
     }
@@ -22,6 +24,8 @@ module.exports = {
 
   _step : function() {
     window.main();
-    window.requestAnimationFrame(Leila._step);
+    window.requestAnimationFrame(() => {
+      this._step();
+    });
   }
 }

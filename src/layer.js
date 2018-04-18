@@ -35,6 +35,16 @@ class Layer {
     this.context.strokeRect(a, b, c, d);
   }
 
+  drawImage(img, x, y, w, h) {
+    if (w || h) {
+      let wi = img.width;
+      let he = img.height;
+      this.context.drawImage(img, 0, 0, wi, he, x, y, w, h);
+    } else {
+      this.context.drawImage(img, x, y);
+    }
+  }
+
   clear(c) {
     this.fillStyle(c);
     this.fillRect(0, 0, this.width, this.height);

@@ -45,7 +45,7 @@ class App {
   loadImage(imgName) {
     if (!this.images) this.images = {};
     let img = new Image();
-    img.src = "./images/" + imgName + ".png";
+    img.src = "./images/" + imgName + ".jpg";
     this.images[imgName] = img;
   }
 

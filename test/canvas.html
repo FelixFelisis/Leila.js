@@ -5,26 +5,37 @@
 </head>
 <body>
   <script src="../build/bundle.js"></script>
-  
+
   <script>
 
-    Leila.init({
-      width: 800,
-      height: 800
+    var app = Leila(400, 400);
+
+    // create a new state and register it
+    app.register({
+      name: "menu",
+
+      enter: function() {
+        this.x = 0;
+        this.vx = 1;
+      },
+
+      update: function() {
+        this.x += this.vx;
+        if (this.x + 10 > app.canvas.width || this.x < 0)
+          this.vx *= -1;
+      },
+
+      render: function() {
+        app.layer.clear("black");
+        app.layer.fillStyle("white");
+        app.layer.fillRect(this.x, 0, 10, 10);
+      }
     });
 
-    Leila.clearCanvas("black");
-
-    class MyObject extends Leila.GameObject {
-      update(dt) {
-        console.log("test", dt);
-      }
-    }
-
-    Leila.register(new MyObject('test'));
-
-    Leila.start();
-    
+    // enter the state 'Menu'
+    app.enterState('menu');
+    // start the animation
+    app.play();
   </script>
 </body>
 </html>

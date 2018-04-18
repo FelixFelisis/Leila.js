@@ -1,164 +1,163 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-
 /**
-* file : Leila.js 
-*
-* authors : Arthur Correnson / Benjamin Mandervelde
-* 
-* this code is distributed under the MIT licence
-*
-*/
+ * file : app.js
+ *
+ * description : class App
+ *
+ *  author : Arthur Correnson <jdrprod@gmail.com>
+ *
+ * this code is distibuted uneder the MIT licence
+ */
 
-const CanvasManager = require('./canvas');
+const Layer = require('./layer');
+const State = require('./state');
 
-const Core = require('./core');
+class App {
+  constructor() {
+    this.createCanvas();
+    this.getContext();
+  }
 
-window.Leila = {};
+  createCanvas(w, h) {
+    var cnv = document.createElement("canvas");
+    cnv.width = w || 400;
+    cnv.height = h || 400;
+    document.querySelector("body").appendChild(cnv);
+    this.canvas = cnv;
+  }
 
-// Core module
-Object.assign(Leila, Core);
+  getContext() {
+    var context = this.canvas.getContext('2d');
+    this.layer = new Layer(context);
+  }
 
-// CanvasManager module
-Object.assign(Leila, CanvasManager);
+  register(state) {
+    if (!this.states) this.states = {};
+    var newState = new State(state.name);
+    Object.assign(newState, state);
+    this.states[state.name] = newState;
+  }
 
-},{"./canvas":2,"./core":3}],2:[function(require,module,exports){
+  enterState(stateName) {
+    this.actualState = stateName;
+    this.states[stateName].enter();
+  }
 
+  loop() {
+    this.states[this.actualState].update();
+    this.states[this.actualState].render();
+    window.requestAnimationFrame(() => {
+      this.loop();
+    });
+  }
+
+  play() {
+    this.loop();
+  }
+}
+
+if (module !== undefined) {
+  module.exports = App;
+}
+
+},{"./layer":3,"./state":4}],2:[function(require,module,exports){
 /**
-* file : canvas.js
-*
-* authors : Arthur Correnson / Benjamin Mandervelde
-* 
-* this code is distributed under the MIT licence
-*
-*/
+ * file : core.js
+ *
+ * description : main file of the lib
+ *
+ *  author : Arthur Correnson <jdrprod@gmail.com>
+ *
+ * this code is distibuted uneder the MIT licence
+ */
 
-const CanvasManager = {};
+const App = require('./app');
 
-CanvasManager.createCanvas = function (width, height, parent) {
-  this._canvas = document.createElement('canvas');
-  this._canvas.width = width || 400;
-  this._canvas.height = height || 400;
-  this.canvasParent(parent || 'body');
-};
+window.Leila = function(w, h) {
+  var app = new App();
+  return app;
+}
 
-CanvasManager.canvasParams = function (params) {
-  if(typeof params === 'object') {
-    for(let index in params) {
-      this._canvas.setAttribute(index, params[index]);
+},{"./app":1}],3:[function(require,module,exports){
+/**
+ * file : layer.js
+ *
+ * description : class Layer
+ *
+ *  author : Arthur Correnson <jdrprod@gmail.com>
+ *
+ * this code is distibuted uneder the MIT licence
+ */
+
+class Layer {
+  constructor(ctx) {
+    this.context = ctx;
+    this.width = ctx.canvas.width;
+    this.height = ctx.canvas.height;
+  }
+
+  fillStyle(c) {
+    if (typeof c === 'string') {
+      this.context.fillStyle = c;
     }
-  } else {
-    console.error('[LeilaJs] Canvas.bindParam: params is not an object');
   }
-};
 
-CanvasManager.canvasParent = function (parent) {
-  document.querySelector(parent).appendChild(this._canvas);
-};
-
-CanvasManager.get2dContext = function () {
-  if(this._canvas) {
-    this._context = this._canvas.getContext('2d');
-  } else {
-    console.error('[LeilaJs] Canvas.get2dContext: no canvas created');
+  strokeStyle(c) {
+    if (typeof c === 'string') {
+      this.context.strokeStyle = c;
+    }
   }
-};
 
-CanvasManager.clearCanvas = function(color) {
-  let w = this._context.canvas.width;
-  let h = this._context.canvas.height;
-  this._context.fillStyle = color;
-  this._context.fillRect(0, 0, w, h);
+  fillRect(a, b, c, d) {
+    this.context.fillRect(a, b, c, d);
+  }
+
+  strokeRect(a, b, c, d) {
+    this.context.strokeRect(a, b, c, d);
+  }
+
+  clear(c) {
+    this.fillStyle(c);
+    this.fillRect(0, 0, this.width, this.height);
+  }
 }
 
-module.exports = CanvasManager;
-},{}],3:[function(require,module,exports){
+if (module !== undefined) {
+  module.exports = Layer;
+}
 
+},{}],4:[function(require,module,exports){
 /**
-* file : core.js 
-*
-* authors : Arthur Correnson / Benjamin Mandervelde
-* 
-* this code is distributed under the MIT
-*
-*/
+ * file : state.js
+ *
+ * description : class State
+ *
+ *  author : Arthur Correnson <jdrprod@gmail.com>
+ *
+ * this code is distibuted uneder the MIT licence
+ */
 
-const Core = {};
-
-Core.components = [];
-
-Core.componentsToRender = [];
-
-Core.loadImages = function() {
-  if (!this.images) this.images = {};
-  // loop over components
-}
-
-Core.register = function(component) {
-  // register a new component
-  if (component instanceof this.GameObject)
-    this.components.push(component);
-}
-
-Core.render = function(dt) {
-  // loop over components and components.render();
-  for(var component of this.components) {
-    component.render(dt);
+class State {
+  constructor(name) {
+    this.name = name;
   }
-}
 
-Core.update = function(dt) {
-  // loop over components and components.update();
-  for(var component of this.components) {
-    component.update(dt);
+  enter() {
+    // state entered
   }
-}
 
-Core.gameLoop = function() {
-  // delta time
-  let date = Date.now();
-  let dt = date - this._lastUpdate;
-  this._lastUpdate = date;
-  // update
-  this.update(dt / 1000);
-  this.render(dt / 1000);
-  window.requestAnimationFrame(() => {
-    this.gameLoop();
-  });
-}
-
-Core.init = function(args) {
-  if(!args) args = {};
-  if(this.createCanvas) {
-    this.createCanvas(args.width, args.height);
-    this.get2dContext();
-  } else {
-    console.error("[LeilaJs] Core.init -> no CanvasManager set");
+  update() {
+    // game logic here
   }
-}
 
-Core.start = function() {
-  this.loadImages();
-  this._lastUpdate = Date.now();
-  window.requestAnimationFrame(() => {
-    this.gameLoop();
-  });
-}
-
-// class gameObject
-Core.GameObject = function(name) {
-  this.name = name;
-  this.state = {};
-}
-
-Core.GameObject.prototype.setState = function(args) {
-  for(var fields in args) {
-    this[fields] = args[fields];
+  render() {
+    // rendering here
   }
+
 }
 
-Core.GameObject.prototype.update = function(dt) {};
+if (module !== undefined) {
+  module.exports = State;
+}
 
-Core.GameObject.prototype.render = function(dt) {};
-
-module.exports = Core;
-},{}]},{},[1]);
+},{}]},{},[2]);

@@ -1,174 +1,163 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-
 /**
-* file : draw.js 
-*
-* 2D rendering module
-* 
-* authors : Arthur Correnson / Benjamin Mandervelde
-* 
-* this code is distributed under the MIT licence
-*
-*/
+ * file : app.js
+ *
+ * description : class App
+ *
+ *  author : Arthur Correnson <jdrprod@gmail.com>
+ *
+ * this code is distibuted uneder the MIT licence
+ */
 
-module.exports = {
+const Layer = require('./layer');
+const State = require('./state');
 
-  fillStyle : function(color) {
-    this._context.fillStyle = color;
-  },
-
-  clear : function(color) {
-    this.fillStyle(color);
-    this._context.fillRect(0, 0, this._canvas.width, this._canvas.height);
-  },
-
-  fillRect : function(x, y, w, h) {
-    this._context.fillRect(x, y, w, h);
-  },
-
-  strokeStyle : function(color) {
-    this._context.strokeStyle = color;
-  },
-
-  strokeRect : function(x, y, w, h) {
-    this._context.strokeRect(x, y, w, h);
-  }
-}
-},{}],2:[function(require,module,exports){
-
-/**
-* file : Leila.js 
-*
-* authors : Arthur Correnson / Benjamin Mandervelde
-* 
-* this code is distributed under the MIT licence
-*
-*/
-
-(function() {
-  'use strict';
-
-  var lib = {};
-
-  // utils functions
-  var Utils = {
-
+class App {
+  constructor() {
+    this.createCanvas();
+    this.getContext();
   }
 
-  // canvas functions
-  var Canvas = require('./canvas');
-
-  // drawing functions
-  var Draw = require('./Draw');
-
-  // math functions
-  var math = require('./math');
-
-  // main loop manager
-  var mainLoop = require('./mainLoop');
-
-  // set all properties
-  Object.assign(
-    lib,
-    Utils,
-    Canvas,
-    Draw,
-    math,
-    mainLoop
-    );
-
-  // make Leila global
-  window.Leila = lib;
-
-  // onload try to start the main loop
-  window.onload = function() {
-    Leila._innit();
+  createCanvas(w, h) {
+    var cnv = document.createElement("canvas");
+    cnv.width = w || 400;
+    cnv.height = h || 400;
+    document.querySelector("body").appendChild(cnv);
+    this.canvas = cnv;
   }
 
-})();
-
-
-
-
-
-
-
-},{"./Draw":1,"./canvas":3,"./mainLoop":4,"./math":5}],3:[function(require,module,exports){
-
-/**
-* file : canvas.js
-*
-* Canvas manager module
-* 
-* authors : Arthur Correnson / Benjamin Mandervelde
-* 
-* this code is distributed under the MIT licence
-*
-*/
-
-module.exports = {
-
-  createCanvas : function(width, height, option) {
-    var canvas = document.createElement("canvas");
-    document.querySelector("body").appendChild(canvas);
-
-    canvas.width = width || 400;
-    canvas.height = height || 400;
-
-    if(option && (option === 'webgl' || option === '2d')) {
-      this._context = canvas.getContext(option);
-    } else {
-      this._context = canvas.getContext('2d');
-    }
-
-    this._canvas = canvas;
-
+  getContext() {
+    var context = this.canvas.getContext('2d');
+    this.layer = new Layer(context);
   }
-}
-},{}],4:[function(require,module,exports){
 
-/**
-* file : canvas.js
-*
-* Main loop module
-* 
-* authors : Arthur Correnson / Benjamin Mandervelde
-* 
-* this code is distributed under the MIT licence
-*
-*/
+  register(state) {
+    if (!this.states) this.states = {};
+    var newState = new State(state.name);
+    Object.assign(newState, state);
+    this.states[state.name] = newState;
+  }
 
-module.exports = {
+  enterState(stateName) {
+    this.actualState = stateName;
+    this.states[stateName].enter();
+  }
 
-  _innit : function () {
-    if(window.main && typeof window.main === 'function') {
-      window.requestAnimationFrame(() => {
-        this._step();
-      });
-    } else {
-      console.log("nop");
-    }
-  },
-
-  _step : function() {
-    window.main();
+  loop() {
+    this.states[this.actualState].update();
+    this.states[this.actualState].render();
     window.requestAnimationFrame(() => {
-      this._step();
+      this.loop();
     });
   }
+
+  play() {
+    this.loop();
+  }
 }
-},{}],5:[function(require,module,exports){
-module.exports = {
-  sin : Math.sin,
 
-  cos : Math.cos,
-
-  tan : Math.tan,
-
-  acos : Math.acos,
-
-  asin : Math.asin,
-
-  atan : Math.atan
+if (module !== undefined) {
+  module.exports = App;
 }
+
+},{"./layer":3,"./state":4}],2:[function(require,module,exports){
+/**
+ * file : core.js
+ *
+ * description : main file of the lib
+ *
+ *  author : Arthur Correnson <jdrprod@gmail.com>
+ *
+ * this code is distibuted uneder the MIT licence
+ */
+
+const App = require('./app');
+
+window.Leila = function(w, h) {
+  var app = new App();
+  return app;
+}
+
+},{"./app":1}],3:[function(require,module,exports){
+/**
+ * file : layer.js
+ *
+ * description : class Layer
+ *
+ *  author : Arthur Correnson <jdrprod@gmail.com>
+ *
+ * this code is distibuted uneder the MIT licence
+ */
+
+class Layer {
+  constructor(ctx) {
+    this.context = ctx;
+    this.width = ctx.canvas.width;
+    this.height = ctx.canvas.height;
+  }
+
+  fillStyle(c) {
+    if (typeof c === 'string') {
+      this.context.fillStyle = c;
+    }
+  }
+
+  strokeStyle(c) {
+    if (typeof c === 'string') {
+      this.context.strokeStyle = c;
+    }
+  }
+
+  fillRect(a, b, c, d) {
+    this.context.fillRect(a, b, c, d);
+  }
+
+  strokeRect(a, b, c, d) {
+    this.context.strokeRect(a, b, c, d);
+  }
+
+  clear(c) {
+    this.fillStyle(c);
+    this.fillRect(0, 0, this.width, this.height);
+  }
+}
+
+if (module !== undefined) {
+  module.exports = Layer;
+}
+
+},{}],4:[function(require,module,exports){
+/**
+ * file : state.js
+ *
+ * description : class State
+ *
+ *  author : Arthur Correnson <jdrprod@gmail.com>
+ *
+ * this code is distibuted uneder the MIT licence
+ */
+
+class State {
+  constructor(name) {
+    this.name = name;
+  }
+
+  enter() {
+    // state entered
+  }
+
+  update() {
+    // game logic here
+  }
+
+  render() {
+    // rendering here
+  }
+
+}
+
+if (module !== undefined) {
+  module.exports = State;
+}
+
 },{}]},{},[2]);

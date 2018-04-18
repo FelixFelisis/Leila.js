@@ -5,26 +5,37 @@
 </head>
 <body>
   <script src="../build/bundle.js"></script>
-  
+
   <script>
 
-    Leila.createCanvas(800, 800);
+    var app = Leila(400, 400);
 
-    var x = 0;
+    // create a new state and register it
+    app.register({
+      name: "menu",
 
-    function main() {
-      
-      Leila.clear("black");
-      
-      Leila.fillStyle("white");
-      Leila.fillRect(10, 10, 10, 10);
-      
-      Leila.strokeStyle("red");
-      Leila.strokeRect(x, 10, 10, 10);
-      x += 2;
-    }
+      enter: function() {
+        this.x = 0;
+        this.vx = 1;
+      },
 
+      update: function() {
+        this.x += this.vx;
+        if (this.x + 10 > app.canvas.width || this.x < 0)
+          this.vx *= -1;
+      },
 
+      render: function() {
+        app.layer.clear("black");
+        app.layer.fillStyle("white");
+        app.layer.fillRect(this.x, 0, 10, 10);
+      }
+    });
+
+    // enter the state 'Menu'
+    app.enterState('menu');
+    // start the animation
+    app.play();
   </script>
 </body>
 </html>

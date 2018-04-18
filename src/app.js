@@ -42,6 +42,19 @@ class App {
     this.states[stateName].enter();
   }
 
+  loadImage(imgName) {
+    if (!this.images) this.images = {};
+    let img = new Image();
+    img.src = "./images/" + imgName + ".png";
+    this.images[imgName] = img;
+  }
+
+  loadImages(...imgs) {
+    for (img of imgs) {
+      this.loadImage(img);
+    }
+  }
+
   loop() {
     this.states[this.actualState].update();
     this.states[this.actualState].render();

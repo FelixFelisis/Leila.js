@@ -43,6 +43,19 @@ class App {
     this.states[stateName].enter();
   }
 
+  loadImage(imgName) {
+    if (!this.images) this.images = {};
+    let img = new Image();
+    img.src = "./images/" + imgName + ".jpg";
+    this.images[imgName] = img;
+  }
+
+  loadImages(...imgs) {
+    for (img of imgs) {
+      this.loadImage(img);
+    }
+  }
+
   loop() {
     this.states[this.actualState].update();
     this.states[this.actualState].render();
@@ -114,6 +127,16 @@ class Layer {
 
   strokeRect(a, b, c, d) {
     this.context.strokeRect(a, b, c, d);
+  }
+
+  drawImage(img, x, y, w, h) {
+    if (w || h) {
+      let wi = img.width;
+      let he = img.height;
+      this.context.drawImage(img, 0, 0, wi, he, x, y, w, h);
+    } else {
+      this.context.drawImage(img, x, y);
+    }
   }
 
   clear(c) {

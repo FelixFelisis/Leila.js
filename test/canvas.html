@@ -17,6 +17,7 @@
       enter: function() {
         this.x = 0;
         this.vx = 1;
+        app.loadImage("codercat");
       },
 
       update: function() {
@@ -29,6 +30,7 @@
         app.layer.clear("black");
         app.layer.fillStyle("white");
         app.layer.fillRect(this.x, 0, 10, 10);
+        app.layer.drawImage(app.images["codercat"], 0, 0, 400, 400);
       }
     });
 

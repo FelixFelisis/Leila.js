@@ -20,6 +20,10 @@
         app.loadImage("codercat");
       },
 
+      keydown: function(a) {
+        console.log(a.key);
+      },
+
       update: function() {
         this.x += this.vx;
         if (this.x + 10 > app.canvas.width || this.x < 0)

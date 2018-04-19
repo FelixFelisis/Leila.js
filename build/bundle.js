@@ -41,6 +41,17 @@ class App {
   enterState(stateName) {
     this.actualState = stateName;
     this.states[stateName].enter();
+    this.setInput();
+  }
+
+  setInput() {
+    let state = this.states[this.actualState];
+    document.addEventListener("keydown", (e) => {
+      state.keydown(e);
+    });
+    document.addEventListener("mousemove", (e) => {
+      state.mousemove(e);
+    });
   }
 
   loadImage(imgName) {
@@ -193,6 +204,14 @@ class State {
 
   render() {
     // rendering here
+  }
+
+  mousemove() {
+    // mouse event here
+  }
+
+  keydown() {
+    // keyboad inputs here
   }
 
 }

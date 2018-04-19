@@ -45,6 +45,24 @@ class Layer {
     }
   }
 
+  font(f) {
+    if (typeof f === 'string') {
+      this.context.font = f;
+    }
+  }
+
+  strokeText(string, x, y) {
+    if (typeof string === 'string') {
+      this.context.strokeText(string, x, y);
+    }
+  }
+
+  fillText(string, x, y) {
+    if (typeof string === 'string') {
+      this.context.fillText(string, x, y);
+    }
+  }
+
   clear(c) {
     this.fillStyle(c);
     this.fillRect(0, 0, this.width, this.height);

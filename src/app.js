@@ -12,8 +12,8 @@ const Layer = require('./layer');
 const State = require('./state');
 
 class App {
-  constructor() {
-    this.createCanvas();
+  constructor(w, h) {
+    this.createCanvas(w, h);
     this.getContext();
   }
 

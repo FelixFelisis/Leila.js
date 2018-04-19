@@ -46,11 +46,11 @@ class App {
 
   setInput() {
     let state = this.states[this.actualState];
-    document.addEventListener("keydown", () => {
-      state.keydown();
+    document.addEventListener("keydown", (e) => {
+      state.keydown(e);
     });
-    document.addEventListener("mousemove", () => {
-      state.mousemove
+    document.addEventListener("mousemove", (e) => {
+      state.mousemove(e);
     });
   }
 
@@ -204,6 +204,14 @@ class State {
 
   render() {
     // rendering here
+  }
+
+  mousemove() {
+    // mouse event here
+  }
+
+  keydown() {
+    // keyboad inputs here
   }
 
 }

@@ -25,6 +25,14 @@ class State {
     // rendering here
   }
 
+  mousemove() {
+    // mouse event here
+  }
+
+  keydown() {
+    // keyboad inputs here
+  }
+
 }
 
 if (module !== undefined) {

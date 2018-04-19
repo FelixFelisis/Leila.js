@@ -11,6 +11,6 @@
 const App = require('./app');
 
 window.Leila = function(w, h) {
-  var app = new App();
+  var app = new App(w, h);
   return app;
 }

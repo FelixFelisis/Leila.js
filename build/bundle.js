@@ -13,8 +13,8 @@ const Layer = require('./layer');
 const State = require('./state');
 
 class App {
-  constructor() {
-    this.createCanvas();
+  constructor(w, h) {
+    this.createCanvas(w, h);
     this.getContext();
   }
 
@@ -87,7 +87,7 @@ if (module !== undefined) {
 const App = require('./app');
 
 window.Leila = function(w, h) {
-  var app = new App();
+  var app = new App(w, h);
   return app;
 }
 
@@ -136,6 +136,24 @@ class Layer {
       this.context.drawImage(img, 0, 0, wi, he, x, y, w, h);
     } else {
       this.context.drawImage(img, x, y);
+    }
+  }
+
+  font(f) {
+    if (typeof f === 'string') {
+      this.context.font = f;
+    }
+  }
+
+  strokeText(string, x, y) {
+    if (typeof string === 'string') {
+      this.context.strokeText(string, x, y);
+    }
+  }
+
+  fillText(string, x, y) {
+    if (typeof string === 'string') {
+      this.context.fillText(string, x, y);
     }
   }
 

@@ -45,8 +45,12 @@ class App {
 
   setInput() {
     let state = this.states[this.actualState];
-    document.addEventListener("keydown", state.keydown);
-    document.addEventListener("mousemove", state.mousemove);
+    document.addEventListener("keydown", () => {
+      state.keydown();
+    });
+    document.addEventListener("mousemove", () => {
+      state.mousemove
+    });
   }
 
   loadImage(imgName) {

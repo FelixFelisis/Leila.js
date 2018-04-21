@@ -15,6 +15,8 @@ class App {
   constructor(w, h) {
     this.createCanvas(w, h);
     this.getContext();
+    this.toLoad = 0;
+    this.loaded = 0;
   }
 
   createCanvas(w, h) {
@@ -41,6 +43,7 @@ class App {
     this.actualState = stateName;
     this.states[stateName].enter();
     this.setInput();
+    this.play();
   }
 
   setInput() {
@@ -56,12 +59,19 @@ class App {
   loadImage(imgName) {
     if (!this.images) this.images = {};
     let img = new Image();
+    this.toLoad += 1;
     img.src = "./images/" + imgName + ".jpg";
+
+    img.onload = () => {
+      this.loaded += 1;
+      this.play();
+    }
+
     this.images[imgName] = img;
   }
 
   loadImages(...imgs) {
-    for (img of imgs) {
+    for (let img of imgs) {
       this.loadImage(img);
     }
   }
@@ -75,10 +85,11 @@ class App {
   }
 
   play() {
-    this.loop();
+    // play only if all files
+    // needed are loaded
+    if (this.toLoad === this.loaded)
+      this.loop();
   }
 }
 
-if (module !== undefined) {
-  module.exports = App;
-}
+module.exports = App;

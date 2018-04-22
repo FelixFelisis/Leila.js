@@ -84,11 +84,18 @@ class App {
     });
   }
 
+  onload() {
+    console.log("loaded state 2");
+    this.states[this.actualState].onload();
+  }
+
   play() {
     // play only if all files
     // needed are loaded
-    if (this.toLoad === this.loaded)
-      this.loop();
+    if (this.toLoad === this.loaded) {
+      this.onload();
+      this.loop();            
+    }
   }
 }
 

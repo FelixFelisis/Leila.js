@@ -85,17 +85,24 @@ class App {
     });
   }
 
+  onload() {
+    console.log("loaded state 2");
+    this.states[this.actualState].onload();
+  }
+
   play() {
     // play only if all files
     // needed are loaded
-    if (this.toLoad === this.loaded)
-      this.loop();
+    if (this.toLoad === this.loaded) {
+      this.onload();
+      this.loop();            
+    }
   }
 }
 
 module.exports = App;
 
-},{"./layer":5,"./state":6}],2:[function(require,module,exports){
+},{"./layer":6,"./state":7}],2:[function(require,module,exports){
 /**
  * file : core.js
  *
@@ -112,7 +119,8 @@ const App = require('./app');
 // GLOBAL
 window.LEILA = {
 	GameObject: require('./gameObjects/gameObject'),
-	Group: require('./gameObjects/group')
+	Group: require('./gameObjects/group'),
+	Sprite: require('./gameObjects/sprite')
 }
 
 window.Leila = function(w, h) {
@@ -120,9 +128,9 @@ window.Leila = function(w, h) {
   return app;
 }
 
-},{"./app":1,"./gameObjects/gameObject":3,"./gameObjects/group":4}],3:[function(require,module,exports){
+},{"./app":1,"./gameObjects/gameObject":3,"./gameObjects/group":4,"./gameObjects/sprite":5}],3:[function(require,module,exports){
 /**
- * file : plugins/gameObject.js
+ * file : gameObjects/gameObject.js
  *
  * description : class GameObject
  *
@@ -149,7 +157,7 @@ class GameObject {
 module.exports = GameObject;
 },{}],4:[function(require,module,exports){
 /**
- * file : plugins/group.js
+ * file : gameObjects/group.js
  *
  * description : class Group
  *
@@ -185,6 +193,44 @@ class Group {
 module.exports = Group;
 
 },{}],5:[function(require,module,exports){
+/**
+ * file : gameObjects/sprite.js
+ *
+ * description : class Sprite
+ *
+ *  author : Arthur Correnson <jdrprod@gmail.com>
+ *
+ * this code is distibuted uneder the MIT licence
+ */
+
+const GameObject = require('./gameObject');
+
+class Sprite extends GameObject {
+	constructor(game, name, x, y, key) {
+		super(name);
+		this.game = game;
+		this.x = x;
+		this.y = y;
+		this.key = key || name;
+		
+		this.w = this.game.images[this.key].width;
+		this.h = this.game.images[this.key].height;
+
+	}
+
+	scale(sx, sy) {
+		this.w *= sx;
+		this.h *= sy;
+	}
+
+	render() {
+		let img = this.game.images[this.key];
+		this.game.layer.drawImage(img, this.x, this.y, this.w, this.h);
+	}
+}
+
+module.exports = Sprite;
+},{"./gameObject":3}],6:[function(require,module,exports){
 /**
  * file : layer.js
  *
@@ -258,7 +304,7 @@ class Layer {
 
 module.exports = Layer;
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /**
  * file : state.js
  *
@@ -276,6 +322,10 @@ class State {
 
   enter() {
     // state entered
+  }
+
+  onload() {
+    
   }
 
   update() {

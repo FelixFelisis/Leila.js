@@ -1,5 +1,5 @@
 /**
- * file : plugins/gameObject.js
+ * file : gameObjects/gameObject.js
  *
  * description : class GameObject
  *

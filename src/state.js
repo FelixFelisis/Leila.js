@@ -17,6 +17,10 @@ class State {
     // state entered
   }
 
+  onload() {
+    
+  }
+
   update() {
     // game logic here
   }

@@ -14,7 +14,8 @@ const App = require('./app');
 // GLOBAL
 window.LEILA = {
 	GameObject: require('./gameObjects/gameObject'),
-	Group: require('./gameObjects/group')
+	Group: require('./gameObjects/group'),
+	Sprite: require('./gameObjects/sprite')
 }
 
 window.Leila = function(w, h) {

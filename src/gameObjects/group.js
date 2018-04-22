@@ -1,5 +1,5 @@
 /**
- * file : plugins/group.js
+ * file : gameObjects/group.js
  *
  * description : class Group
  *

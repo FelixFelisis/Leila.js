@@ -10,31 +10,45 @@
 
     var app = Leila(400, 400);
 
+    app.register({
+      name: "test",
+      
+      enter: function() {
+        app.loadImages("codercat2");
+      },
+
+      onload: function() {
+        console.log("I'M LOADED !!! ");
+      },
+
+      render: function() {
+        app.layer.drawImage(app.images.codercat2, 0, 0);
+      }
+    })
+
     // create a new state and register it
     app.register({
       name: "menu",
 
       enter: function() {
-        this.x = 0;
-        this.vx = 1;
-        app.loadImages("codercat", "codercat2", "codercat3");
+        app.loadImages("codercat");
+      },
+
+      onload: function() {
+        this.cdc = new LEILA.Sprite(app, "codercat", 0, 0);
+        this.cdc.scale(0.2, 0.2);
       },
 
       keydown: function(a) {
         console.log(a.key);
-      },
-
-      update: function() {
-        this.x += this.vx;
-        if (this.x + 10 > app.canvas.width || this.x < 0)
-          this.vx *= -1;
+        if (a.key === 'a') app.enterState('test');
       },
 
       render: function() {
         app.layer.clear("black");
         app.layer.fillStyle("white");
         app.layer.fillRect(this.x, 0, 10, 10);
-        app.layer.drawImage(app.images["codercat"], 0, 0, 400, 400);
+        this.cdc.render();
       }
     });
 

@@ -1,3 +1,12 @@
+/**
+ * file : utils/objectEqual.js
+ *
+ * description : class GameObject
+ *
+ * author : Arthur Correnson <jdrprod@gmail.com>
+ *
+ * this code is distibuted uneder the MIT licence
+ */
 
 function areEquals(a, b) {
 

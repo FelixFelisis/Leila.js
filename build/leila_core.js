@@ -106,148 +106,7 @@ class App {
 
 module.exports = App;
 
-},{"./layer":6,"./state":7}],2:[function(require,module,exports){
-/**
- * file : core.js
- *
- * description : main file of the lib
- *
- * author : Arthur Correnson <jdrprod@gmail.com>
- *
- * this code is distibuted uneder the MIT licence
- */
-
-// LOCAL
-const App = require('./app');
-
-// GLOBAL
-window.LEILA = {
-	GameObject: require('./gameObjects/gameObject'),
-	Group: require('./gameObjects/group'),
-	Sprite: require('./gameObjects/sprite')
-}
-
-window.Leila = function(w, h) {
-  var app = new App(w, h);
-  return app;
-}
-
-},{"./app":1,"./gameObjects/gameObject":3,"./gameObjects/group":4,"./gameObjects/sprite":5}],3:[function(require,module,exports){
-/**
- * file : gameObjects/gameObject.js
- *
- * description : class GameObject
- *
- * author : Arthur Correnson <jdrprod@gmail.com>
- *
- * this code is distibuted uneder the MIT licence
- */
-
-const areEquals = require('../utils/objectEqual');
-
-class GameObject {
-  constructor(name) {
-    this.name = name;
-    this.state = {};
-  }
-
-  setState(modif) {
-    let newState = Object.assign({}, this.state, modif);
-    if (!areEquals(newState, this.state)) {
-        console.log("state updated");
-        for (let key in newState) {
-        this.state[key] = newState[key];
-      }
-    }
-  }
-
-  update() {
-    // logic here
-  }
-
-  render() {
-    // render herer
-  }
-
-}
-
-module.exports = GameObject;
-},{"../utils/objectEqual":8}],4:[function(require,module,exports){
-/**
- * file : gameObjects/group.js
- *
- * description : class Group
- *
- * author : Arthur Correnson <jdrprod@gmail.com>
- *
- * this code is distibuted uneder the MIT licence
- */
-
-class Group {
-	constructor() {
-		this.gameObjects = [];
-	}
-
-	render(context) {
-		this.gameObjects.map(obj => {
-			obj.render(context);
-		});
-	}
-
-	update() {
-		this.gameObjects.map(obj => {
-			obj.update();
-		});
-	}
-
-	append(...gameObjects) {
-		for (let gObj of gameObjects) {
-			this.gameObjects.push(gObj);
-		}
-	}
-}
-
-module.exports = Group;
-
-},{}],5:[function(require,module,exports){
-/**
- * file : gameObjects/sprite.js
- *
- * description : class Sprite
- *
- *  author : Arthur Correnson <jdrprod@gmail.com>
- *
- * this code is distibuted uneder the MIT licence
- */
-
-const GameObject = require('./gameObject');
-
-class Sprite extends GameObject {
-	constructor(game, name, x, y, key) {
-		super(name);
-		this.game = game;
-		this.x = x;
-		this.y = y;
-		this.key = key || name;
-		
-		this.w = this.game.images[this.key].width;
-		this.h = this.game.images[this.key].height;
-
-	}
-
-	scale(sx, sy) {
-		this.w *= sx;
-		this.h *= sy;
-	}
-
-	render() {
-		let img = this.game.images[this.key];
-		this.game.layer.drawImage(img, this.x, this.y, this.w, this.h);
-	}
-}
-
-module.exports = Sprite;
-},{"./gameObject":3}],6:[function(require,module,exports){
+},{"./layer":2,"./state":4}],2:[function(require,module,exports){
 /**
  * file : layer.js
  *
@@ -321,7 +180,18 @@ class Layer {
 
 module.exports = Layer;
 
-},{}],7:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
+// namespace LEILA
+window.LEILA = {
+	App: require('./app')
+}
+
+// main function
+window.Leila = function(w, h) {
+  var app = new LEILA.App(w, h);
+  return app;
+}
+},{"./app":1}],4:[function(require,module,exports){
 /**
  * file : state.js
  *
@@ -365,28 +235,4 @@ class State {
 
 module.exports = State;
 
-},{}],8:[function(require,module,exports){
-
-function areEquals(a, b) {
-
-	let aProps = Object.getOwnPropertyNames(a);
-  let bProps = Object.getOwnPropertyNames(b);
-
-  if (bProps.length !== aProps.length)
-  	return false;
-
-  for (let key of aProps) {
-  	if (!bProps.includes(key) || b[key] !== a[key])
-  		return false;
-  }
-
-  for (let key of bProps) {
-  	if (!aProps.includes(key) || b[key] !== a[key])
-  		return false;
-  }
-
-  return true;
-}
-
-module.exports = areEquals;
-},{}]},{},[2]);
+},{}]},{},[3]);

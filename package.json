@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "browserify src/core.js -o build/bundle.js"
+    "build": "browserify src/leila.js -o build/leila.js",
+    "buildCore": "browserify src/leila_core.js -o build/leila_core.js"
   },
   "repository": {
     "type": "git",

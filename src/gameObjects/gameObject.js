@@ -14,12 +14,13 @@ class GameObject {
   constructor(name) {
     this.name = name;
     this.state = {};
+    this.updatedThisTick = false;
   }
 
   setState(modif) {
     let newState = Object.assign({}, this.state, modif);
     if (!areEquals(newState, this.state)) {
-        console.log("state updated");
+        this.updatedThisTick = true;
         for (let key in newState) {
         this.state[key] = newState[key];
       }

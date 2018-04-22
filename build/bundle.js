@@ -41,20 +41,25 @@ class App {
   }
 
   enterState(stateName) {
+    this.clearInput();
     this.actualState = stateName;
     this.states[stateName].enter();
     this.setInput();
     this.play();
   }
 
+  clearInput() {
+    if (this.actualState) {
+      let state = this.states[this.actualState];
+      document.removeEventListener('keydown', state.keydown);
+      document.removeEventListener('mousemove', state.mousemove);
+    }
+  }
+
   setInput() {
     let state = this.states[this.actualState];
-    document.addEventListener("keydown", (e) => {
-      state.keydown(e);
-    });
-    document.addEventListener("mousemove", (e) => {
-      state.mousemove(e);
-    });
+    document.addEventListener("keydown", state.keydown);
+    document.addEventListener("mousemove", state.mousemove);
   }
 
   loadImage(imgName) {
@@ -86,7 +91,6 @@ class App {
   }
 
   onload() {
-    console.log("loaded state 2");
     this.states[this.actualState].onload();
   }
 
@@ -139,23 +143,34 @@ window.Leila = function(w, h) {
  * this code is distibuted uneder the MIT licence
  */
 
+const areEquals = require('../utils/objectEqual');
+
 class GameObject {
   constructor(name) {
     this.name = name;
+    this.state = {};
+  }
+
+  setState(newState) {
+    if (!areEquals(newState, this.state)) {
+        for (let key in newState) {
+        this.state[key] = newState[key];
+      }
+    }
   }
 
   update() {
     // logic here
   }
 
-  render(ctx) {
+  render() {
     // render herer
   }
 
 }
 
 module.exports = GameObject;
-},{}],4:[function(require,module,exports){
+},{"../utils/objectEqual":8}],4:[function(require,module,exports){
 /**
  * file : gameObjects/group.js
  *
@@ -348,4 +363,28 @@ class State {
 
 module.exports = State;
 
+},{}],8:[function(require,module,exports){
+
+function areEquals(a, b) {
+
+	let aProps = Object.getOwnPropertyNames(a);
+  let bProps = Object.getOwnPropertyNames(b);
+
+  if (bProps.length !== aProps.length)
+  	return false;
+
+  for (let key of aProps) {
+  	if (!bProps.includes(key) || b[key] !== a[key])
+  		return false;
+  }
+
+  for (let key of bProps) {
+  	if (!aProps.includes(key) || b[key] !== a[key])
+  		return false;
+  }
+
+  return true;
+}
+
+module.exports = areEquals;
 },{}]},{},[2]);

@@ -17,10 +17,6 @@
         app.loadImages("codercat2");
       },
 
-      onload: function() {
-        console.log("I'M LOADED !!! ");
-      },
-
       render: function() {
         app.layer.drawImage(app.images.codercat2, 0, 0);
       }
@@ -37,6 +33,7 @@
       onload: function() {
         this.cdc = new LEILA.Sprite(app, "codercat", 0, 0);
         this.cdc.scale(0.2, 0.2);
+        this.cdc.setState({x: 10, y: 10});
       },
 
       keydown: function(a) {

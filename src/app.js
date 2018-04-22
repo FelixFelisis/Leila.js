@@ -40,20 +40,25 @@ class App {
   }
 
   enterState(stateName) {
+    this.clearInput();
     this.actualState = stateName;
     this.states[stateName].enter();
     this.setInput();
     this.play();
   }
 
+  clearInput() {
+    if (this.actualState) {
+      let state = this.states[this.actualState];
+      document.removeEventListener('keydown', state.keydown);
+      document.removeEventListener('mousemove', state.mousemove);
+    }
+  }
+
   setInput() {
     let state = this.states[this.actualState];
-    document.addEventListener("keydown", (e) => {
-      state.keydown(e);
-    });
-    document.addEventListener("mousemove", (e) => {
-      state.mousemove(e);
-    });
+    document.addEventListener("keydown", state.keydown);
+    document.addEventListener("mousemove", state.mousemove);
   }
 
   loadImage(imgName) {
@@ -85,7 +90,6 @@ class App {
   }
 
   onload() {
-    console.log("loaded state 2");
     this.states[this.actualState].onload();
   }
 

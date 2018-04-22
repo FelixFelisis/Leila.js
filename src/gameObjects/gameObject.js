@@ -16,8 +16,10 @@ class GameObject {
     this.state = {};
   }
 
-  setState(newState) {
+  setState(modif) {
+    let newState = Object.assign({}, this.state, modif);
     if (!areEquals(newState, this.state)) {
+        console.log("state updated");
         for (let key in newState) {
         this.state[key] = newState[key];
       }

@@ -45,7 +45,11 @@ class App {
     this.actualState = stateName;
     this.states[stateName].enter();
     this.setInput();
-    this.play();
+    this.tryToStart();
+  }
+
+  getActualState() {
+    return this.states[this.actualState];
   }
 
   clearInput() {
@@ -70,7 +74,7 @@ class App {
 
     img.onload = () => {
       this.loaded += 1;
-      this.play();
+      this.tryToStart();
     }
 
     this.images[imgName] = img;
@@ -94,7 +98,7 @@ class App {
     this.states[this.actualState].onload();
   }
 
-  play() {
+  tryToStart() {
     // play only if all files
     // needed are loaded
     if (this.toLoad === this.loaded) {
@@ -298,7 +302,7 @@ module.exports = Layer;
 
 },{}],6:[function(require,module,exports){
 /**
- * file : core.js
+ * file : leila.js
  *
  * description : main file of the lib
  *

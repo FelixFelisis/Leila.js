@@ -17,6 +17,10 @@ class State {
     // state entered
   }
 
+  onload() {
+    
+  }
+
   update() {
     // game logic here
   }
@@ -35,6 +39,4 @@ class State {
 
 }
 
-if (module !== undefined) {
-  module.exports = State;
-}
+module.exports = State;

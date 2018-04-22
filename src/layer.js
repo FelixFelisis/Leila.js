@@ -69,6 +69,4 @@ class Layer {
   }
 }
 
-if (module !== undefined) {
-  module.exports = Layer;
-}
+module.exports = Layer;

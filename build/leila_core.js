@@ -4,7 +4,7 @@
  *
  * description : class App
  *
- *  author : Arthur Correnson <jdrprod@gmail.com>
+ * author : Arthur Correnson <jdrprod@gmail.com>
  *
  * this code is distibuted uneder the MIT licence
  */
@@ -16,6 +16,8 @@ class App {
   constructor(w, h) {
     this.createCanvas(w, h);
     this.getContext();
+    this.toLoad = 0;
+    this.loaded = 0;
   }
 
   createCanvas(w, h) {
@@ -39,30 +41,43 @@ class App {
   }
 
   enterState(stateName) {
+    this.clearInput();
     this.actualState = stateName;
     this.states[stateName].enter();
     this.setInput();
+    this.play();
+  }
+
+  clearInput() {
+    if (this.actualState) {
+      let state = this.states[this.actualState];
+      document.removeEventListener('keydown', state.keydown);
+      document.removeEventListener('mousemove', state.mousemove);
+    }
   }
 
   setInput() {
     let state = this.states[this.actualState];
-    document.addEventListener("keydown", (e) => {
-      state.keydown(e);
-    });
-    document.addEventListener("mousemove", (e) => {
-      state.mousemove(e);
-    });
+    document.addEventListener("keydown", state.keydown);
+    document.addEventListener("mousemove", state.mousemove);
   }
 
   loadImage(imgName) {
     if (!this.images) this.images = {};
     let img = new Image();
+    this.toLoad += 1;
     img.src = "./images/" + imgName + ".jpg";
+
+    img.onload = () => {
+      this.loaded += 1;
+      this.play();
+    }
+
     this.images[imgName] = img;
   }
 
   loadImages(...imgs) {
-    for (img of imgs) {
+    for (let img of imgs) {
       this.loadImage(img);
     }
   }
@@ -75,34 +90,23 @@ class App {
     });
   }
 
+  onload() {
+    this.states[this.actualState].onload();
+  }
+
   play() {
-    this.loop();
+    // play only if all files
+    // needed are loaded
+    if (this.toLoad === this.loaded) {
+      this.onload();
+      this.loop();            
+    }
   }
 }
 
-if (module !== undefined) {
-  module.exports = App;
-}
+module.exports = App;
 
-},{"./layer":3,"./state":4}],2:[function(require,module,exports){
-/**
- * file : core.js
- *
- * description : main file of the lib
- *
- *  author : Arthur Correnson <jdrprod@gmail.com>
- *
- * this code is distibuted uneder the MIT licence
- */
-
-const App = require('./app');
-
-window.Leila = function(w, h) {
-  var app = new App(w, h);
-  return app;
-}
-
-},{"./app":1}],3:[function(require,module,exports){
+},{"./layer":2,"./state":4}],2:[function(require,module,exports){
 /**
  * file : layer.js
  *
@@ -174,11 +178,20 @@ class Layer {
   }
 }
 
-if (module !== undefined) {
-  module.exports = Layer;
+module.exports = Layer;
+
+},{}],3:[function(require,module,exports){
+// namespace LEILA
+window.LEILA = {
+	App: require('./app')
 }
 
-},{}],4:[function(require,module,exports){
+// main function
+window.Leila = function(w, h) {
+  var app = new LEILA.App(w, h);
+  return app;
+}
+},{"./app":1}],4:[function(require,module,exports){
 /**
  * file : state.js
  *
@@ -196,6 +209,10 @@ class State {
 
   enter() {
     // state entered
+  }
+
+  onload() {
+    
   }
 
   update() {
@@ -216,8 +233,6 @@ class State {
 
 }
 
-if (module !== undefined) {
-  module.exports = State;
-}
+module.exports = State;
 
-},{}]},{},[2]);
+},{}]},{},[3]);

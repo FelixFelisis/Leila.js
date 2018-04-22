@@ -4,44 +4,54 @@
   <title>test canvas</title>
 </head>
 <body>
-  <script src="../build/bundle.js"></script>
+  <script src="../build/leila.js"></script>
 
   <script>
 
     var app = Leila(400, 400);
+
+    app.register({
+      name: "test",
+      
+      enter: function() {
+        app.loadImages("codercat2");
+      },
+
+      render: function() {
+        app.layer.drawImage(app.images.codercat2, 0, 0);
+      }
+    })
 
     // create a new state and register it
     app.register({
       name: "menu",
 
       enter: function() {
-        this.x = 0;
-        this.vx = 1;
-        app.loadImage("codercat");
+        app.loadImages("codercat");
+      },
+
+      onload: function() {
+        this.cdc = new LEILA.Sprite(app, "codercat", 0, 0);
+        this.cdc.scale(0.2, 0.2);
+        this.cdc.setState({x: 10, y: 10});
+        this.cdc.setState({x: 10});
       },
 
       keydown: function(a) {
         console.log(a.key);
-      },
-
-      update: function() {
-        this.x += this.vx;
-        if (this.x + 10 > app.canvas.width || this.x < 0)
-          this.vx *= -1;
+        if (a.key === 'a') app.enterState('test');
       },
 
       render: function() {
         app.layer.clear("black");
         app.layer.fillStyle("white");
         app.layer.fillRect(this.x, 0, 10, 10);
-        app.layer.drawImage(app.images["codercat"], 0, 0, 400, 400);
+        this.cdc.render();
       }
     });
 
     // enter the state 'Menu'
     app.enterState('menu');
-    // start the animation
-    app.play();
   </script>
 </body>
 </html>

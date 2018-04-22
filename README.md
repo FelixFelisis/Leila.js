@@ -6,7 +6,15 @@
 
 *A mini lib to build games for the Web*
 
-Une petite bibliothèque javascript pour créer des jeux navigateurs.
+Leila.js est une petite librairie déstinée à la programmation de jeux pour le web.
+Très légère et simple d'utilisation, Leila.js se veut être un outil de choix pour
+les *game jams* ou le prototypage.
+
+Au terme de son développement elle devra fournir les fonctionnalités suivantes :
++ rendu 2D / 3D
++ audio et son
++ gestion des entrées périphériques
++ gestion de scènes de jeu ou d'état
 
 # Note
 
@@ -22,32 +30,55 @@ tout âge et de tout niveau autour d'un même projet collaboratif.
 
 # Stade du développement
 
-Leila.js est actuellement EN CONSTRUCTION.
+Leila.js est actuellement en période de test/développement.
 
-Pour prendre part aux décisions, vous pouvez rejoindre le server discord suivant :
+Quoi de mieux pour avancer dans le développement que de commencer
+à utiliser Leila.js ? Pour être certain de proposer des fonctionnalités 
+pratiques et simples d'utilisation, nous développons Leila.js tout en 
+l'utilisant dans des projets.
 
-[discord](https://discord.gg/kv9zA3Z)
+Le jeu [dungeonJam](https://github.com/jdrprod/dungeonJam) utilise
+déjà les dernières fonctionnalités de Leila.js.
 
-# L'idée
+### fonctionnalités disponibles
 
-Leila.js se veut être une librairie légère et très simple d'utilisation.
++ gestion de scènes (states)
++ gestion des entrées clavier
++ chargement des scènes et des images
++ dessin de primitives 2D et images
 
-Au terme de son développement elle devra fournir les fonctionnalités suivantes :
-+ rendu 2D
+### fonctionnalités instables / en développement
+
++ création de 'gameObjects'
++ optimisation du rendu des gameObjects via .setState()
+	+ un gameObject n'est rendu que si son état a changé
++ gestion des formats d'images
++ groupes de gameObjects
+
+### fonctionnalités à ajouter
+
++ entrées souris
++ gestion des assets (json, son, etc)
 + rendu 3D
-+ physique (2D)
-+ gestion de scènes de jeu ou d'état
++ multi canvas
+
+Pour prendre part au développement, vous pouvez rejoindre le server discord suivant : 
+[discord](https://discord.gg/kv9zA3Z)
 
 # Le langage et les outils
 
 Leila.js est, comme indiqué par son nom, développée en javascript.
-Pour accelérer le développement et permettre une orgnaisation en modules, Leila.js est conçu sous Node.js.
+Pour accelérer le développement et permettre une orgnaisation en modules, Leila.js est conçue sous Node.js.
 On utilise également browserify pour packager la librairie en un seul fichier utilisable dans n'importe quelle page web.
 
 # Packager la bibliothèque
 
-Pour packager la bibliothèque après lui avoir apporté d'éventuelles modifications, simplement utiliser la commande : `$ npm run build`.
+Pour packager la bibliothèque après lui avoir aporter d'éventuelles modifications, il existe deux options :
 
-Cela produira un fichier `bundle.js` dans le dossier `build`.
+La commande `$ npm run build` produit une version complète de la bibliothèque
+à l'emplacement **build/leila.js**  
 
-Vous pouvez ensuite importer ce `bundle.js` dans n'importe qu'elle balise `<script>`.
+La commande `$ npm run buildCore` produit une version allégée de la bibliothèque
+à l'emplacement **build/leila_core.js**
+
+Vous pouvez ensuite importer ce `leila(_core).js` dans n'importe qu'elle balise `<script>`.

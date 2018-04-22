@@ -3,7 +3,7 @@
  *
  * description : class App
  *
- *  author : Arthur Correnson <jdrprod@gmail.com>
+ * author : Arthur Correnson <jdrprod@gmail.com>
  *
  * this code is distibuted uneder the MIT licence
  */

@@ -4,7 +4,7 @@
  *
  * description : class App
  *
- *  author : Arthur Correnson <jdrprod@gmail.com>
+ * author : Arthur Correnson <jdrprod@gmail.com>
  *
  * this code is distibuted uneder the MIT licence
  */
@@ -95,25 +95,96 @@ class App {
 
 module.exports = App;
 
-},{"./layer":3,"./state":4}],2:[function(require,module,exports){
+},{"./layer":5,"./state":6}],2:[function(require,module,exports){
 /**
  * file : core.js
  *
  * description : main file of the lib
  *
- *  author : Arthur Correnson <jdrprod@gmail.com>
+ * author : Arthur Correnson <jdrprod@gmail.com>
  *
  * this code is distibuted uneder the MIT licence
  */
 
+// LOCAL
 const App = require('./app');
+
+// GLOBAL
+window.LEILA = {
+	GameObject: require('./gameObjects/gameObject'),
+	Group: require('./gameObjects/group')
+}
 
 window.Leila = function(w, h) {
   var app = new App(w, h);
   return app;
 }
 
-},{"./app":1}],3:[function(require,module,exports){
+},{"./app":1,"./gameObjects/gameObject":3,"./gameObjects/group":4}],3:[function(require,module,exports){
+/**
+ * file : plugins/gameObject.js
+ *
+ * description : class GameObject
+ *
+ * author : Arthur Correnson <jdrprod@gmail.com>
+ *
+ * this code is distibuted uneder the MIT licence
+ */
+
+class GameObject {
+  constructor(name) {
+    this.name = name;
+  }
+
+  update() {
+    // logic here
+  }
+
+  render(ctx) {
+    // render herer
+  }
+
+}
+
+module.exports = GameObject;
+},{}],4:[function(require,module,exports){
+/**
+ * file : plugins/group.js
+ *
+ * description : class Group
+ *
+ * author : Arthur Correnson <jdrprod@gmail.com>
+ *
+ * this code is distibuted uneder the MIT licence
+ */
+
+class Group {
+	constructor() {
+		this.gameObjects = [];
+	}
+
+	render(context) {
+		this.gameObjects.map(obj => {
+			obj.render(context);
+		});
+	}
+
+	update() {
+		this.gameObjects.map(obj => {
+			obj.update();
+		});
+	}
+
+	append(...gameObjects) {
+		for (let gObj of gameObjects) {
+			this.gameObjects.push(gObj);
+		}
+	}
+}
+
+module.exports = Group;
+
+},{}],5:[function(require,module,exports){
 /**
  * file : layer.js
  *
@@ -187,7 +258,7 @@ class Layer {
 
 module.exports = Layer;
 
-},{}],4:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 /**
  * file : state.js
  *

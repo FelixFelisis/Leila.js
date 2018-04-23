@@ -15,10 +15,15 @@
       
       enter: function() {
         app.loadImages("codercat2");
+        this.msg = "[codercat] says : 'stop touching me !'";
       },
 
+      mousemove: function() {
+        console.log(this.msg);
+      },
+ 
       render: function() {
-        app.layer.drawImage(app.images.codercat2, 0, 0);
+        app.layer.drawImage(app.images.codercat2, 0, 0, 400, 400);
       }
     })
 
@@ -33,8 +38,6 @@
       onload: function() {
         this.cdc = new LEILA.Sprite(app, "codercat", 0, 0);
         this.cdc.scale(0.2, 0.2);
-        this.cdc.setState({x: 10, y: 10});
-        this.cdc.setState({x: 10});
       },
 
       keydown: function(a) {
@@ -47,6 +50,8 @@
         app.layer.fillStyle("white");
         app.layer.fillRect(this.x, 0, 10, 10);
         this.cdc.render();
+        app.layer.font("25px Arial");
+        app.layer.fillText("press A to make me bigger !", 40, 230);
       }
     });
 

@@ -55,15 +55,25 @@ class App {
   clearInput() {
     if (this.actualState) {
       let state = this.states[this.actualState];
-      document.removeEventListener('keydown', state.keydown);
-      document.removeEventListener('mousemove', state.mousemove);
+      document.removeEventListener('keydown', LEILA.inputs.keydown);
+      document.removeEventListener('mousemove', LEILA.inputs.mousemove);
     }
   }
 
   setInput() {
     let state = this.states[this.actualState];
-    document.addEventListener("keydown", state.keydown);
-    document.addEventListener("mousemove", state.mousemove);
+    
+    LEILA.inputs = {
+      keydown: function(e) {
+        state.keydown(e);
+      },
+      mousemove: function(e) {
+        state.mousemove(e);
+      }
+    }
+
+    document.addEventListener("keydown", LEILA.inputs.keydown);
+    document.addEventListener("mousemove", LEILA.inputs.mousemove);
   }
 
   loadImage(imgName) {

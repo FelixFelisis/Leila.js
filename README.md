@@ -6,7 +6,7 @@
 
 *A mini lib to build games for the Web*
 
-Leila.js est une petite librairie déstinée à la programmation de jeux pour le web.
+Leila.js est une petite librairie destinée à la programmation de jeux pour le web.
 Très légère et simple d'utilisation, Leila.js se veut être un outil de choix pour
 les *game jams* ou le prototypage.
 

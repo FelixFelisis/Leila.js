@@ -82,5 +82,3 @@ La commande `$ npm run buildCore` produit une version allégée de la bibliothè
 à l'emplacement **build/leila_core.js**
 
 Vous pouvez ensuite importer ce `leila(_core).js` dans n'importe qu'elle balise `<script>`.
-
-*test push master*
